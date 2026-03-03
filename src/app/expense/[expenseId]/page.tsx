@@ -26,7 +26,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export default function ExpensePage({
+// Mock data - in real app this would come from API
+
+export default function ExpenseDetailPage({
   params,
 }: {
   params: { expenseId: string };
@@ -98,7 +100,9 @@ export default function ExpensePage({
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
-    }).format(amount);
+    })
+      .format(amount)
+      .toLowerCase();
   };
 
   const handleMarkPaid = () => {
@@ -123,14 +127,15 @@ export default function ExpensePage({
 
   // Get expense details
   const expenseName = expenseData?.description || "";
-  const expenseNote = expenseData?.note || "Tra tien cho bo m";
+  const totalAmount = expenseData?.amount || 0;
+  const expenseNote = expenseData?.note || "Pay your share please.";
 
   // Show loading state
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4" />
           <p className="text-muted-foreground">Loading expense details...</p>
         </div>
       </div>
@@ -155,54 +160,51 @@ export default function ExpensePage({
       </div>
     );
   }
-
+  const iconUrl = expenseData?.icon
+    ? `/${expenseData.icon}.svg`
+    : "/placeholder.svg";
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto p-4 sm:p-6 relative">
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Pay your share</h1>
-          <p className="text-gray-600 mt-2">{expenseName}</p>
         </div>
 
         {/* Main Content */}
         <div className="space-y-6">
           {/* Your Share Card */}
           <div className="bg-[#5A7ACD] rounded-2xl p-6 text-white shadow-lg">
-            <div className="text-sm font-medium opacity-90 mb-1">
-              Your share
-            </div>
-            <div className="text-3xl font-bold mb-4">
-              {formatCurrency(userShare)}
-            </div>
+            <p className="text-xl font-medium opacity-90 mb-1">{expenseName}</p>
             <div className="flex justify-between items-center pt-4 border-t border-white/20">
               <div>
-                <p className="text-sm opacity-75">Paid by</p>
-                <p className="font-medium">{payerName}</p>
+                <p className="text-xl text-white "> Total Amount</p>
+                <p className="font-medium text-2xl">
+                  {" "}
+                  {formatCurrency(totalAmount)}
+                </p>
               </div>
               <div className="text-right">
-                <p className="text-sm opacity-75">Split type</p>
-                <p className="font-medium capitalize">
-                  {expenseData?.split_type || "equal"}
-                </p>
+                <p className="text-sm opacity-75">Paid by</p>
+                <p className="font-medium">{payerName}</p>
               </div>
             </div>
           </div>
 
           {/* QR Code and Expense Note Section */}
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-0">
             {/* Scan to pay */}
-            <div className="max-w-[280px]">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="max-w-[340px]">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4 text-center">
                 Scan to pay
               </h2>
               <div className="bg-white border rounded-xl p-4 flex items-center justify-center mb-5">
                 <Image
                   src={qrCodeDataURL || "/placeholder.svg"}
                   alt="Payment QR Code"
-                  width={200}
-                  height={200}
-                  className="w-[200px] h-[200px]"
+                  width={300}
+                  height={300}
+                  className="w-[300px] h-[300px]"
                 />
               </div>
               <Button
@@ -216,32 +218,24 @@ export default function ExpensePage({
             </div>
 
             {/* Expense Note */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Expense note
-              </h2>
+            <div className="flex flex-col justify-start h-full mt-10">
               {expenseData?.icon ? (
-                <div className="flex items-start gap-0 mt-6">
-                  <Image
-                    src={`/${expenseData.icon}.svg`}
-                    alt="Expense icon"
-                    width={100}
-                    height={100}
-                    className="w-[100px] h-[100px] flex-shrink-0"
-                  />
-                  <div className="relative flex-1 max-w-[250px] -ml-4">
+                <>
+                  {expenseNote && (
+                    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+                      <p className="text-black text-sm">{expenseNote || ""}</p>
+                    </div>
+                  )}
+                  <div className="flex justify-center mb-10">
                     <Image
-                      src="/speech_bubble.svg"
-                      alt="Speech bubble"
-                      width={250}
-                      height={120}
-                      className="w-full h-auto"
+                      src={iconUrl}
+                      alt="Expense icon"
+                      width={200}
+                      height={200}
+                      className="w-[250px] h-[250px] object-contain"
                     />
-                    <p className="absolute inset-0 flex items-center justify-center text-gray-700 text-sm px-8 py-6 text-center">
-                      {expenseNote || "No note provided"}
-                    </p>
                   </div>
-                </div>
+                </>
               ) : (
                 <p className="text-gray-700 text-base mb-4">
                   {expenseNote || "No note provided"}
@@ -250,36 +244,25 @@ export default function ExpensePage({
             </div>
           </div>
 
-          {/* Save QR Button */}
-          <Button
-            variant="outline"
-            onClick={handleSaveQR}
-            className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Save QR
-          </Button>
-
-          {/* Split Details */}
-          <div className="border rounded-xl overflow-hidden">
+          <div className="bg-gray-50 rounded-xl overflow-hidden">
             <button
               type="button"
               onClick={() => setSplitDetailsOpen(!splitDetailsOpen)}
-              className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between p-4 bg-gray-50"
             >
-              <h2 className="text-lg font-semibold text-gray-900">
+              <h2 className="text-lg font-semibold text-gray-700">
                 Split details
               </h2>
               <ChevronDown
-                className={`w-5 h-5 text-gray-500 transition-transform ${
+                className={`w-5 h-5 text-gray-700 transition-transform ${
                   splitDetailsOpen ? "rotate-180" : ""
                 }`}
               />
             </button>
 
             {splitDetailsOpen && (
-              <div className="border-t">
-                {(expenseData?.participants || []).map(
+              <div className="bg-gray-50">
+                {expenseData?.participants?.map(
                   (participant, index: number) => {
                     // biome-ignore lint/suspicious/noExplicitAny: Handling union of API and mock data types
                     const participantData = participant as any;
@@ -294,10 +277,10 @@ export default function ExpensePage({
                     return (
                       <div
                         key={participantId || index}
-                        className="flex items-center justify-between p-4 hover:bg-gray-50"
+                        className="flex items-center justify-between p-4 bg-gray-50"
                       >
                         <div className="flex items-center gap-3">
-                          <Avatar className="w-10 h-10">
+                          <Avatar className="w-12 h-12">
                             <AvatarFallback className="bg-purple-200 text-purple-800">
                               {participantData.name
                                 ?.split(" ")
@@ -309,13 +292,8 @@ export default function ExpensePage({
                           <div>
                             <p className="font-medium text-gray-900">
                               {participantData.name}
-                              {isPayer && (
-                                <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
-                                  Payer
-                                </span>
-                              )}
                             </p>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-600">
                               {isPayer
                                 ? "Paid the full amount"
                                 : `Owes ${payerName}`}

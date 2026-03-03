@@ -37,7 +37,7 @@ export default function ExpenseDetailPage({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [qrCodeDataURL, setQrCodeDataURL] = useState<string>("");
-  const [splitDetailsOpen, setSplitDetailsOpen] = useState(false);
+  const [splitDetailsOpen, setSplitDetailsOpen] = useState(true);
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
 
   // Fetch expense details on component mount

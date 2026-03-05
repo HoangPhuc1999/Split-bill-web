@@ -38,6 +38,7 @@ export interface Expense {
   modified_at: Date;
   settlement_status: string | null;
   icon?: string;
+  qr_code_url?: string;
 }
 
 export interface ExpenseParticipant {

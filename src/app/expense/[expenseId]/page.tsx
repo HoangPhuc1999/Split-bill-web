@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Image from "next/image";
-import QRCode from "qrcode";
 import { ChevronDown, Download } from "lucide-react";
 import { ExpenseRepository } from "@/repositories/ExpenseRepository";
 import type { Expense } from "@/models/Expense";
@@ -31,12 +30,12 @@ import {
 export default function ExpenseDetailPage({
   params,
 }: {
-  params: { expenseId: string };
+  params: Promise<{ expenseId: string }>;
 }) {
+  const { expenseId } = use(params);
   const [expenseData, setExpenseData] = useState<Expense | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [qrCodeDataURL, setQrCodeDataURL] = useState<string>("");
   const [splitDetailsOpen, setSplitDetailsOpen] = useState(true);
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
 
@@ -46,9 +45,7 @@ export default function ExpenseDetailPage({
       try {
         setIsLoading(true);
         setError(null);
-        const data = await ExpenseRepository.getExpenseDetails(
-          params.expenseId,
-        );
+        const data = await ExpenseRepository.getExpenseDetails(expenseId);
         setExpenseData(data);
       } catch (err) {
         console.error("Error fetching expense details:", err);
@@ -58,43 +55,10 @@ export default function ExpenseDetailPage({
       }
     };
 
-    if (params.expenseId) {
+    if (expenseId) {
       fetchExpenseDetails();
     }
-  }, [params.expenseId]);
-
-  // Generate QR code
-  useEffect(() => {
-    const generateQRCode = async () => {
-      if (!expenseData) return;
-
-      try {
-        // Create payment data for QR code
-        const paymentData = {
-          expenseId: expenseData.id,
-          amount: expenseData.amount,
-          currency: expenseData.currency,
-          description: expenseData.description,
-          paidBy: expenseData.paid_by,
-        };
-
-        const qrCodeURL = await QRCode.toDataURL(JSON.stringify(paymentData), {
-          width: 300,
-          margin: 2,
-          color: {
-            dark: "#000000",
-            light: "#FFFFFF",
-          },
-        });
-
-        setQrCodeDataURL(qrCodeURL);
-      } catch (error) {
-        console.error("Error generating QR code:", error);
-      }
-    };
-
-    generateQRCode();
-  }, [expenseData]);
+  }, [expenseId]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -111,10 +75,10 @@ export default function ExpenseDetailPage({
   };
 
   const handleSaveQR = () => {
-    if (!qrCodeDataURL) return;
+    if (!expenseData?.qr_code_url) return;
     const link = document.createElement("a");
     link.download = "payment-qr.png";
-    link.href = qrCodeDataURL;
+    link.href = expenseData.qr_code_url;
     link.click();
   };
 
@@ -200,7 +164,7 @@ export default function ExpenseDetailPage({
               </h2>
               <div className="bg-white border rounded-xl p-4 flex items-center justify-center mb-5">
                 <Image
-                  src={qrCodeDataURL || "/placeholder.svg"}
+                  src={expenseData?.qr_code_url || "/placeholder.svg"}
                   alt="Payment QR Code"
                   width={300}
                   height={300}

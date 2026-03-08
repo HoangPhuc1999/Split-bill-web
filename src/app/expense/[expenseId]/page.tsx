@@ -76,10 +76,16 @@ export default function ExpenseDetailPage({
 
   const handleSaveQR = () => {
     if (!expenseData?.qr_code_url) return;
+
+    // Simple download using anchor tag
     const link = document.createElement("a");
-    link.download = "payment-qr.png";
     link.href = expenseData.qr_code_url;
+    link.download = `payment-qr-${expenseId}.png`;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
 
   // Calculate user's share (assuming first participant is current user)
@@ -182,30 +188,34 @@ export default function ExpenseDetailPage({
             </div>
 
             {/* Expense Note */}
-            <div className="flex flex-col justify-start h-full mt-10">
-              {expenseData?.icon ? (
-                <>
-                  {expenseNote && (
-                    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4">
-                      <p className="text-black text-sm">{expenseNote || ""}</p>
+            {expenseData?.note && (
+              <div className="flex flex-col justify-start h-full mt-10">
+                {expenseData?.icon ? (
+                  <>
+                    {expenseNote && (
+                      <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+                        <p className="text-black text-sm">
+                          {expenseNote || ""}
+                        </p>
+                      </div>
+                    )}
+                    <div className="flex justify-center mb-10">
+                      <Image
+                        src={iconUrl}
+                        alt="Expense icon"
+                        width={200}
+                        height={200}
+                        className="w-[250px] h-[250px] object-contain"
+                      />
                     </div>
-                  )}
-                  <div className="flex justify-center mb-10">
-                    <Image
-                      src={iconUrl}
-                      alt="Expense icon"
-                      width={200}
-                      height={200}
-                      className="w-[250px] h-[250px] object-contain"
-                    />
+                  </>
+                ) : (
+                  <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+                    <p className="text-black text-sm">{expenseNote || ""}</p>
                   </div>
-                </>
-              ) : (
-                <p className="text-gray-700 text-base mb-4">
-                  {expenseNote || "No note provided"}
-                </p>
-              )}
-            </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="bg-gray-50 rounded-xl overflow-hidden">
@@ -276,33 +286,6 @@ export default function ExpenseDetailPage({
               </div>
             )}
           </div>
-
-          {/* Mark as Paid Button */}
-          <Dialog open={paymentDialogOpen} onOpenChange={setPaymentDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="w-full bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-50">
-                Mark as paid
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Mark as Paid</DialogTitle>
-                <DialogDescription>
-                  Confirm that you have completed the payment of{" "}
-                  {formatCurrency(userShare)}.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => setPaymentDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={handleMarkPaid}>Confirm Payment</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
     </div>

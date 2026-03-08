@@ -1,368 +1,245 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import QRCode from "qrcode";
-import { ChevronDown, Download } from "lucide-react";
-import { ExpenseRepository } from "@/repositories/ExpenseRepository";
-import type { Expense } from "@/models/Expense";
-
+import Link from "next/link";
+import { Lock, Link2, QrCode, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Card } from "@/components/ui/card";
 
-export default function ExpensePage({
-  params,
-}: {
-  params: { expenseId: string };
-}) {
-  const [expenseData, setExpenseData] = useState<Expense | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [qrCodeDataURL, setQrCodeDataURL] = useState<string>("");
-  const [splitDetailsOpen, setSplitDetailsOpen] = useState(false);
-  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
-
-  // Fetch expense details on component mount
-  useEffect(() => {
-    const fetchExpenseDetails = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const data = await ExpenseRepository.getExpenseDetails(
-          params.expenseId,
-        );
-        setExpenseData(data);
-      } catch (err) {
-        console.error("Error fetching expense details:", err);
-        setError("Failed to load expense details. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (params.expenseId) {
-      fetchExpenseDetails();
-    }
-  }, [params.expenseId]);
-
-  // Generate QR code
-  useEffect(() => {
-    const generateQRCode = async () => {
-      if (!expenseData) return;
-
-      try {
-        // Create payment data for QR code
-        const paymentData = {
-          expenseId: expenseData.id,
-          amount: expenseData.amount,
-          currency: expenseData.currency,
-          description: expenseData.description,
-          paidBy: expenseData.paid_by,
-        };
-
-        const qrCodeURL = await QRCode.toDataURL(JSON.stringify(paymentData), {
-          width: 300,
-          margin: 2,
-          color: {
-            dark: "#000000",
-            light: "#FFFFFF",
-          },
-        });
-
-        setQrCodeDataURL(qrCodeURL);
-      } catch (error) {
-        console.error("Error generating QR code:", error);
-      }
-    };
-
-    generateQRCode();
-  }, [expenseData]);
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(amount);
-  };
-
-  const handleMarkPaid = () => {
-    // In real app, update participant status to pending
-    setPaymentDialogOpen(false);
-  };
-
-  const handleSaveQR = () => {
-    if (!qrCodeDataURL) return;
-    const link = document.createElement("a");
-    link.download = "payment-qr.png";
-    link.href = qrCodeDataURL;
-    link.click();
-  };
-
-  // Calculate user's share (assuming first participant is current user)
-  const userShare = expenseData?.participants?.[0]?.share || 300000;
-  const payer = expenseData?.participants?.find(
-    (p) => p.user_id === expenseData?.paid_by,
-  );
-  const payerName = payer?.name || "Bobby";
-
-  // Get expense details
-  const expenseName = expenseData?.description || "";
-  const expenseNote = expenseData?.note || "Tra tien cho bo m";
-
-  // Show loading state
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading expense details...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show error state
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="max-w-md w-full mx-4">
-          <CardHeader>
-            <CardTitle className="text-red-600">Error</CardTitle>
-            <CardDescription>{error}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button onClick={() => window.location.reload()} className="w-full">
-              Try Again
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
+export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto p-4 sm:p-6 relative">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Pay your share</h1>
-          <p className="text-gray-600 mt-2">{expenseName}</p>
-        </div>
-
-        {/* Main Content */}
-        <div className="space-y-6">
-          {/* Your Share Card */}
-          <div className="bg-[#5A7ACD] rounded-2xl p-6 text-white shadow-lg">
-            <div className="text-sm font-medium opacity-90 mb-1">
-              Your share
-            </div>
-            <div className="text-3xl font-bold mb-4">
-              {formatCurrency(userShare)}
-            </div>
-            <div className="flex justify-between items-center pt-4 border-t border-white/20">
-              <div>
-                <p className="text-sm opacity-75">Paid by</p>
-                <p className="font-medium">{payerName}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-sm opacity-75">Split type</p>
-                <p className="font-medium capitalize">
-                  {expenseData?.split_type || "equal"}
-                </p>
+    <div className="min-h-screen bg-gradient-to-b from-white to-orange-50">
+      {/* Navigation */}
+      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-8">
+              <Link href="/" className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                  S
+                </div>
+                <span className="text-2xl font-bold text-gray-900">Split</span>
+              </Link>
+              <div className="hidden md:flex items-center gap-6">
+                <Link
+                  href="#how-it-works"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  How it works
+                </Link>
+                <Link
+                  href="/search"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Search bill
+                </Link>
               </div>
             </div>
-          </div>
-
-          {/* QR Code and Expense Note Section */}
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Scan to pay */}
-            <div className="max-w-[280px]">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Scan to pay
-              </h2>
-              <div className="bg-white border rounded-xl p-4 flex items-center justify-center mb-5">
-                <Image
-                  src={qrCodeDataURL || "/placeholder.svg"}
-                  alt="Payment QR Code"
-                  width={200}
-                  height={200}
-                  className="w-[200px] h-[200px]"
-                />
-              </div>
-              <Button
-                variant="outline"
-                onClick={handleSaveQR}
-                className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Save QR
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" className="text-gray-700">
+                Log in
+              </Button>
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+                Sign up
               </Button>
             </div>
+          </div>
+        </div>
+      </nav>
 
-            {/* Expense Note */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Expense note
-              </h2>
-              {expenseData?.icon ? (
-                <div className="flex items-start gap-0 mt-6">
-                  <Image
-                    src={`/${expenseData.icon}.svg`}
-                    alt="Expense icon"
-                    width={100}
-                    height={100}
-                    className="w-[100px] h-[100px] flex-shrink-0"
-                  />
-                  <div className="relative flex-1 max-w-[250px] -ml-4">
-                    <Image
-                      src="/speech_bubble.svg"
-                      alt="Speech bubble"
-                      width={250}
-                      height={120}
-                      className="w-full h-auto"
-                    />
-                    <p className="absolute inset-0 flex items-center justify-center text-gray-700 text-sm px-8 py-6 text-center">
-                      {expenseNote || "No note provided"}
+      {/* Hero Section */}
+      <section className="pt-20 pb-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h1 className="text-5xl sm:text-6xl font-bold leading-tight">
+                  Split bills easily.{" "}
+                  <span className="text-orange-500">Get paid instantly.</span>
+                </h1>
+                <p className="text-xl text-gray-600 max-w-lg">
+                  No more chasing friends for money.
+                </p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  Create → Share → Get paid.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                <Button
+                  size="lg"
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 text-lg rounded-full"
+                >
+                  Create a bill
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="px-8 py-6 text-lg rounded-full border-2"
+                >
+                  <span className="mr-2">▶</span> See how it works
+                </Button>
+              </div>
+
+              <div className="flex items-center gap-6 text-gray-700">
+                <div className="flex items-center gap-2">
+                  <Lock className="w-5 h-5" />
+                  <span>Fast</span>
+                </div>
+                <span className="text-gray-300">•</span>
+                <div className="flex items-center gap-2">
+                  <span>Simple</span>
+                </div>
+                <span className="text-gray-300">•</span>
+                <div className="flex items-center gap-2">
+                  <span>Works without app</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="relative z-10 bg-gradient-to-br from-orange-100 to-pink-100 rounded-3xl p-8 lg:p-12">
+                <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-sm mx-auto">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-semibold">Cafe tối</h3>
+                      <span className="text-sm text-gray-500">16</span>
+                    </div>
+                    <div className="text-3xl font-bold text-orange-500">
+                      140.000 đ
+                    </div>
+                    <div className="bg-gray-100 rounded-xl p-4 flex items-center justify-center">
+                      <div className="w-48 h-48 bg-black rounded-lg flex items-center justify-center">
+                        <QrCode className="w-32 h-32 text-white" />
+                      </div>
+                    </div>
+                    <p className="text-center text-sm font-medium text-gray-700">
+                      Scan to pay
                     </p>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                        <CheckCircle2 className="w-5 h-5 text-green-600" />
+                        <span className="text-sm font-medium">
+                          Minh <span className="text-gray-500">paid</span>
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
+                        <div className="w-5 h-5 rounded-full bg-orange-300" />
+                        <span className="text-sm font-medium">
+                          Ngan{" "}
+                          <span className="text-gray-500">owes 50.000 đ</span>
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              ) : (
-                <p className="text-gray-700 text-base mb-4">
-                  {expenseNote || "No note provided"}
-                </p>
-              )}
+              </div>
+              <div className="absolute -bottom-8 -right-8 w-64 h-64 bg-orange-300 rounded-full blur-3xl opacity-30" />
+              <div className="absolute -top-8 -left-8 w-64 h-64 bg-pink-300 rounded-full blur-3xl opacity-30" />
             </div>
           </div>
-
-          {/* Save QR Button */}
-          <Button
-            variant="outline"
-            onClick={handleSaveQR}
-            className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Save QR
-          </Button>
-
-          {/* Split Details */}
-          <div className="border rounded-xl overflow-hidden">
-            <button
-              type="button"
-              onClick={() => setSplitDetailsOpen(!splitDetailsOpen)}
-              className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors"
-            >
-              <h2 className="text-lg font-semibold text-gray-900">
-                Split details
-              </h2>
-              <ChevronDown
-                className={`w-5 h-5 text-gray-500 transition-transform ${
-                  splitDetailsOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-
-            {splitDetailsOpen && (
-              <div className="border-t">
-                {(expenseData?.participants || []).map(
-                  (participant, index: number) => {
-                    // biome-ignore lint/suspicious/noExplicitAny: Handling union of API and mock data types
-                    const participantData = participant as any;
-                    const participantId =
-                      participantData.user_id || participantData.id;
-                    const participantAmount =
-                      participantData.share || participantData.owedAmount;
-                    const isPayer =
-                      participantData.user_id === expenseData?.paid_by ||
-                      participantData.isPayer;
-
-                    return (
-                      <div
-                        key={participantId || index}
-                        className="flex items-center justify-between p-4 hover:bg-gray-50"
-                      >
-                        <div className="flex items-center gap-3">
-                          <Avatar className="w-10 h-10">
-                            <AvatarFallback className="bg-purple-200 text-purple-800">
-                              {participantData.name
-                                ?.split(" ")
-                                .map((n: string) => n[0])
-                                .join("")
-                                .toUpperCase() || "?"}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-medium text-gray-900">
-                              {participantData.name}
-                              {isPayer && (
-                                <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
-                                  Payer
-                                </span>
-                              )}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              {isPayer
-                                ? "Paid the full amount"
-                                : `Owes ${payerName}`}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-semibold text-gray-900">
-                            {formatCurrency(participantAmount)}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  },
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Mark as Paid Button */}
-          <Dialog open={paymentDialogOpen} onOpenChange={setPaymentDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="w-full bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-50">
-                Mark as paid
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Mark as Paid</DialogTitle>
-                <DialogDescription>
-                  Confirm that you have completed the payment of{" "}
-                  {formatCurrency(userShare)}.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => setPaymentDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={handleMarkPaid}>Confirm Payment</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
         </div>
-      </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Feature 1 */}
+            <Card className="p-8 text-center space-y-4 border-2 hover:border-orange-300 transition-colors cursor-pointer">
+              <div className="w-16 h-16 mx-auto bg-orange-100 rounded-2xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold">
+                  ₫
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Create a bill</h3>
+              <p className="text-gray-600">Add amount</p>
+            </Card>
+
+            {/* Feature 2 */}
+            <Card className="p-8 text-center space-y-4 border-2 hover:border-purple-300 transition-colors cursor-pointer">
+              <div className="w-16 h-16 mx-auto bg-purple-100 rounded-2xl flex items-center justify-center">
+                <Link2 className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Share a link</h3>
+              <p className="text-gray-600">With friends</p>
+            </Card>
+
+            {/* Feature 3 */}
+            <Card className="p-8 text-center space-y-4 border-2 hover:border-blue-300 transition-colors cursor-pointer">
+              <div className="w-16 h-16 mx-auto bg-blue-100 rounded-2xl flex items-center justify-center">
+                <QrCode className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Scan & pay</h3>
+              <p className="text-gray-600">Instant QR</p>
+            </Card>
+
+            {/* Feature 4 */}
+            <Card className="p-8 text-center space-y-4 border-2 hover:border-green-300 transition-colors cursor-pointer">
+              <div className="w-16 h-16 mx-auto bg-green-100 rounded-2xl flex items-center justify-center">
+                <CheckCircle2 className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Get settled</h3>
+              <p className="text-gray-600">Everyone paid</p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900">
+            Ready to simplify your splits?
+          </h2>
+          <p className="text-xl text-gray-600">
+            Join thousands of people splitting bills the easy way.
+          </p>
+          <Button
+            size="lg"
+            className="bg-orange-500 hover:bg-orange-600 text-white px-12 py-6 text-lg rounded-full"
+          >
+            Get started for free
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </Button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t py-12 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold">
+                S
+              </div>
+              <span className="text-xl font-bold text-gray-900">Split</span>
+            </div>
+            <p className="text-gray-600 text-sm">
+              © 2026 Split. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6">
+              <Link
+                href="#"
+                className="text-gray-600 hover:text-gray-900 text-sm"
+              >
+                Privacy
+              </Link>
+              <Link
+                href="#"
+                className="text-gray-600 hover:text-gray-900 text-sm"
+              >
+                Terms
+              </Link>
+              <Link
+                href="#"
+                className="text-gray-600 hover:text-gray-900 text-sm"
+              >
+                Contact
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

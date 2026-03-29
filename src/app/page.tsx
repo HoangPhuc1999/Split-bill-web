@@ -356,21 +356,21 @@ export default function LandingPage() {
       {/* How It Works Section */}
       <section
         id="how-it-works"
-        className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white"
+        className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 bg-white"
       >
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-3 sm:mb-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-center text-gray-900 mb-6 sm:mb-8">
             See Chiti in action
           </h2>
-          <p className="text-center text-gray-600 text-base sm:text-lg mb-8 sm:mb-16 px-4">
+          <p className="text-center text-gray-600 text-xl sm:text-2xl lg:text-3xl mb-16 sm:mb-24 px-4">
             Create a shared expense, add a little personality, and send it out{" "}
             <span className="font-semibold text-gray-900">in seconds</span>.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-16 items-start">
             {/* Step 1 */}
-            <div className="text-center space-y-3 sm:space-y-4 relative">
-              <div className="text-sm sm:text-base text-gray-500 mb-2">
+            <div className="text-center space-y-6 sm:space-y-8 relative">
+              <div className="text-lg sm:text-xl lg:text-2xl text-gray-500 mb-2">
                 Step 1{" "}
                 <span className="font-semibold text-gray-900 ml-2">Create</span>
               </div>
@@ -379,19 +379,19 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
+                className="w-[380px] h-[380px] sm:w-[450px] sm:h-[450px] lg:w-[500px] lg:h-[500px] object-contain mx-auto"
               />
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
                 1. Create an expense
               </h3>
-              <p className="text-gray-600 text-base">
+              <p className="text-gray-600 text-lg sm:text-xl lg:text-2xl">
                 Add the total, write a note, and choose who's splitting.
               </p>
             </div>
 
             {/* Step 2 */}
-            <div className="text-center space-y-3 sm:space-y-4 relative">
-              <div className="text-sm sm:text-base text-gray-500 mb-2">
+            <div className="text-center space-y-6 sm:space-y-8 relative">
+              <div className="text-lg sm:text-xl lg:text-2xl text-gray-500 mb-2">
                 Step 2{" "}
                 <span className="font-semibold text-gray-900 ml-2">
                   Personalize
@@ -402,19 +402,19 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
+                className="w-[380px] h-[380px] sm:w-[450px] sm:h-[450px] lg:w-[500px] lg:h-[500px] object-contain mx-auto"
               />
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
                 2. Pick a sticker
               </h3>
-              <p className="text-gray-600 text-base">
+              <p className="text-gray-600 text-lg sm:text-xl lg:text-2xl">
                 Make the bill feel more personal and easier to recognize later.
               </p>
             </div>
 
             {/* Step 3 */}
-            <div className="text-center space-y-3 sm:space-y-4">
-              <div className="text-sm sm:text-base text-gray-500 mb-2">
+            <div className="text-center space-y-6 sm:space-y-8">
+              <div className="text-lg sm:text-xl lg:text-2xl text-gray-500 mb-2">
                 Step 3{" "}
                 <span className="font-semibold text-gray-900 ml-2">
                   Add Friends
@@ -425,19 +425,19 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
+                className="w-[380px] h-[380px] sm:w-[450px] sm:h-[450px] lg:w-[500px] lg:h-[500px] object-contain mx-auto"
               />
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
                 3. Add friends to the bill
               </h3>
-              <p className="text-gray-600 text-base">
+              <p className="text-gray-600 text-lg sm:text-xl lg:text-2xl">
                 Add friends to the bill to share.
               </p>
             </div>
 
             {/* Step 4 */}
-            <div className="text-center space-y-3 sm:space-y-4">
-              <div className="text-sm sm:text-base text-gray-500 mb-2">
+            <div className="text-center space-y-6 sm:space-y-8">
+              <div className="text-lg sm:text-xl lg:text-2xl text-gray-500 mb-2">
                 Step 4{" "}
                 <span className="font-semibold text-gray-900 ml-2">
                   Generate
@@ -448,40 +448,39 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
+                className="w-[380px] h-[380px] sm:w-[450px] sm:h-[450px] lg:w-[500px] lg:h-[500px] object-contain mx-auto"
               />
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
                 4. Generate and share bill
               </h3>
-              <p className="text-gray-600 text-base">
+              <p className="text-gray-600 text-lg sm:text-xl lg:text-2xl">
                 Create a shareable link to send to your friends.
               </p>
             </div>
 
             {/* Step 5 */}
-            <div className="text-center space-y-3 sm:space-y-4">
-              <div className="text-sm sm:text-base text-gray-500 mb-2">
-                Step 5{" "}
-                <span className="font-semibold text-gray-900 ml-2">Review</span>
+            <div className="text-center space-y-6 sm:space-y-8">
+              <div className="text-lg sm:text-xl lg:text-2xl text-gray-500 mb-2">
+                Step 5<div className="font-semibold text-gray-900">Review</div>
               </div>
               <Image
                 src="/step6.png"
                 alt="Expense icon"
                 width={700}
                 height={500}
-                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
+                className="w-[380px] h-[380px] sm:w-[450px] sm:h-[450px] lg:w-[500px] lg:h-[500px] object-contain mx-auto"
               />
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
                 5. Your friend sees the bill
               </h3>
-              <p className="text-gray-600 text-base">
+              <p className="text-gray-600 text-lg sm:text-xl lg:text-2xl">
                 Friends can view all the details and payment information.
               </p>
             </div>
 
             {/* Step 6 */}
-            <div className="text-center space-y-3 sm:space-y-4">
-              <div className="text-sm sm:text-base text-gray-500 mb-2">
+            <div className="text-center space-y-6 sm:space-y-8">
+              <div className="text-lg sm:text-xl lg:text-2xl text-gray-500 mb-2">
                 Step 6{" "}
                 <span className="font-semibold text-gray-900 ml-2">
                   Complete
@@ -492,19 +491,19 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
+                className="w-[380px] h-[380px] sm:w-[450px] sm:h-[450px] lg:w-[500px] lg:h-[500px] object-contain mx-auto"
               />
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
                 6. Mark as paid
               </h3>
-              <p className="text-gray-600 text-base">
+              <p className="text-gray-600 text-lg sm:text-xl lg:text-2xl">
                 Friends who already paid can be marked as complete.
               </p>
             </div>
 
             {/* Step 7 */}
-            <div className="text-center space-y-3 sm:space-y-4 lg:col-start-2">
-              <div className="text-sm sm:text-base text-gray-500 mb-2">
+            <div className="text-center space-y-6 sm:space-y-8 lg:col-start-2">
+              <div className="text-lg sm:text-xl lg:text-2xl text-gray-500 mb-2">
                 Step 7{" "}
                 <span className="font-semibold text-gray-900 ml-2">Manage</span>
               </div>
@@ -513,12 +512,12 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
+                className="w-[380px] h-[380px] sm:w-[450px] sm:h-[450px] lg:w-[500px] lg:h-[500px] object-contain mx-auto"
               />
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
                 7. Manage your bill
               </h3>
-              <p className="text-gray-600 text-base">
+              <p className="text-gray-600 text-lg sm:text-xl lg:text-2xl">
                 Keep track of your paid and unpaid bills.
               </p>
             </div>

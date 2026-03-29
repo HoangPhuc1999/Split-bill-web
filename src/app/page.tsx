@@ -485,6 +485,27 @@ export default function LandingPage() {
                 Friends who already paid can be marked as complete.
               </p>
             </div>
+
+            {/* Step 7 */}
+            <div className="text-center space-y-4 lg:col-start-2">
+              <div className="text-base text-gray-500 mb-2">
+                Step 7{" "}
+                <span className="font-semibold text-gray-900 ml-2">Manage</span>
+              </div>
+              <Image
+                src="/step8.png"
+                alt="Expense icon"
+                width={500}
+                height={500}
+                className="w-[350px] h-[350px] object-contain mx-auto"
+              />
+              <h3 className="text-2xl font-bold text-gray-900">
+                7. Manage your bill
+              </h3>
+              <p className="text-gray-600 text-base">
+                Keep track of your paid and unpaid bills.
+              </p>
+            </div>
           </div>
         </div>
       </section>

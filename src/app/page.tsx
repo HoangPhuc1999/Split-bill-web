@@ -12,14 +12,30 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-8">
+          <div className="flex flex-col md:flex-row items-center justify-between py-3 md:py-0 md:h-16">
+            <div className="flex items-center gap-4 md:gap-8 w-full md:w-auto justify-between md:justify-start">
               <Link href="/" className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
                   S
                 </div>
-                <span className="text-2xl font-bold text-gray-900">Split</span>
+                <span className="text-xl sm:text-2xl font-bold text-gray-900">
+                  Split
+                </span>
               </Link>
+              <div className="flex md:hidden items-center gap-4 text-sm">
+                <Link
+                  href="#how-it-works"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  How it works
+                </Link>
+                <Link
+                  href="/search"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Search
+                </Link>
+              </div>
               <div className="hidden md:flex items-center gap-6">
                 <Link
                   href="#how-it-works"
@@ -46,42 +62,42 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-20 px-4 sm:px-6 lg:px-8">
+      <section className="pt-10 sm:pt-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto">
-          <div className="flex flex-row justify-center items-center">
-            <div className="space-y-8">
+          <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-12">
+            <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
               <div className="space-y-4">
-                <h1 className="text-5xl sm:text-6xl font-bold leading-tight">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight">
                   Split bills easily. <br />
                   <span className="text-orange-500">Get paid instantly.</span>
                 </h1>
-                <p className="text-2xl text-gray-600 max-w-lg">
+                <p className="text-lg sm:text-2xl text-gray-600 max-w-lg">
                   No more chasing friends for money.
                 </p>
-                <p className="text-2xl font-semibold text-gray-900">
+                <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                   Create → Share → Get paid.
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center lg:justify-start">
                 <Button
                   size="lg"
-                  className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 text-lg rounded-full"
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg rounded-full w-full sm:w-auto"
                 >
                   Create a bill
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
-                  className="px-8 py-6 text-lg rounded-full border-2"
+                  className="px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg rounded-full border-2 w-full sm:w-auto"
                 >
                   <span className="mr-2">▶</span> See how it works
                 </Button>
               </div>
 
-              <div className="flex items-center gap-6 text-gray-700">
+              <div className="flex items-center justify-center lg:justify-start gap-4 sm:gap-6 text-sm sm:text-base text-gray-700 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <Lock className="w-5 h-5" />
+                  <Lock className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Fast</span>
                 </div>
                 <span className="text-gray-300">•</span>
@@ -95,7 +111,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="relative">
+            <div className="relative w-full lg:w-auto max-w-md lg:max-w-none">
               <Image
                 src="/splash_image.png"
                 alt="Split App Preview"
@@ -104,8 +120,8 @@ export default function LandingPage() {
                 className="w-full h-auto rounded-2xl"
                 priority
               />
-              <div className="absolute -bottom-8 -right-8 w-64 h-64 bg-orange-300 rounded-full blur-3xl opacity-30" />
-              <div className="absolute -top-8 -left-8 w-64 h-64 bg-pink-300 rounded-full blur-3xl opacity-30" />
+              <div className="hidden sm:block absolute -bottom-8 -right-8 w-48 h-48 sm:w-64 sm:h-64 bg-orange-300 rounded-full blur-3xl opacity-30" />
+              <div className="hidden sm:block absolute -top-8 -left-8 w-48 h-48 sm:w-64 sm:h-64 bg-pink-300 rounded-full blur-3xl opacity-30" />
             </div>
           </div>
         </div>
@@ -233,9 +249,9 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Background text elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="hidden lg:block absolute inset-0 overflow-hidden pointer-events-none">
           {/* Left column */}
           <p className="absolute top-12 left-[15%] text-gray-400 text-base font-medium opacity-60 rotate-[-3deg]">
             "Ê mày trả trước cho tao, tí về tao trả lại 😅"
@@ -319,19 +335,19 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto text-center space-y-6 relative z-10">
+        <div className="max-w-2xl mx-auto text-center space-y-4 sm:space-y-6 relative z-10">
           {/* Cat illustration */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-4 sm:mb-6">
             <Image
               src={"/mascot_5.svg"}
               alt="Expense icon"
               width={200}
               height={200}
-              className="w-[250px] h-[250px] object-contain"
+              className="w-[180px] h-[180px] sm:w-[250px] sm:h-[250px] object-contain"
             />{" "}
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
             Someone still owes you?
           </h2>
         </div>
@@ -340,21 +356,21 @@ export default function LandingPage() {
       {/* How It Works Section */}
       <section
         id="how-it-works"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-white"
+        className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white"
       >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-3 sm:mb-4">
             See Chiti in action
           </h2>
-          <p className="text-center text-gray-600 text-lg mb-16">
+          <p className="text-center text-gray-600 text-base sm:text-lg mb-8 sm:mb-16 px-4">
             Create a shared expense, add a little personality, and send it out{" "}
             <span className="font-semibold text-gray-900">in seconds</span>.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-start">
             {/* Step 1 */}
-            <div className="text-center space-y-4 relative">
-              <div className="text-base text-gray-500 mb-2">
+            <div className="text-center space-y-3 sm:space-y-4 relative">
+              <div className="text-sm sm:text-base text-gray-500 mb-2">
                 Step 1{" "}
                 <span className="font-semibold text-gray-900 ml-2">Create</span>
               </div>
@@ -363,9 +379,9 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[350px] h-[350px] object-contain mx-auto"
+                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
               />
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                 1. Create an expense
               </h3>
               <p className="text-gray-600 text-base">
@@ -374,8 +390,8 @@ export default function LandingPage() {
             </div>
 
             {/* Step 2 */}
-            <div className="text-center space-y-4 relative">
-              <div className="text-base text-gray-500 mb-2">
+            <div className="text-center space-y-3 sm:space-y-4 relative">
+              <div className="text-sm sm:text-base text-gray-500 mb-2">
                 Step 2{" "}
                 <span className="font-semibold text-gray-900 ml-2">
                   Personalize
@@ -386,9 +402,9 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[350px] h-[350px] object-contain mx-auto"
+                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
               />
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                 2. Pick a sticker
               </h3>
               <p className="text-gray-600 text-base">
@@ -397,8 +413,8 @@ export default function LandingPage() {
             </div>
 
             {/* Step 3 */}
-            <div className="text-center space-y-4">
-              <div className="text-sm text-gray-500 mb-2">
+            <div className="text-center space-y-3 sm:space-y-4">
+              <div className="text-sm sm:text-base text-gray-500 mb-2">
                 Step 3{" "}
                 <span className="font-semibold text-gray-900 ml-2">
                   Add Friends
@@ -409,9 +425,9 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[350px] h-[350px] object-contain mx-auto"
+                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
               />
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                 3. Add friends to the bill
               </h3>
               <p className="text-gray-600 text-base">
@@ -420,8 +436,8 @@ export default function LandingPage() {
             </div>
 
             {/* Step 4 */}
-            <div className="text-center space-y-4">
-              <div className="text-base text-gray-500 mb-2">
+            <div className="text-center space-y-3 sm:space-y-4">
+              <div className="text-sm sm:text-base text-gray-500 mb-2">
                 Step 4{" "}
                 <span className="font-semibold text-gray-900 ml-2">
                   Generate
@@ -432,9 +448,9 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[350px] h-[350px] object-contain mx-auto"
+                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
               />
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                 4. Generate and share bill
               </h3>
               <p className="text-gray-600 text-base">
@@ -443,8 +459,8 @@ export default function LandingPage() {
             </div>
 
             {/* Step 5 */}
-            <div className="text-center space-y-4">
-              <div className="text-base text-gray-500 mb-2">
+            <div className="text-center space-y-3 sm:space-y-4">
+              <div className="text-sm sm:text-base text-gray-500 mb-2">
                 Step 5{" "}
                 <span className="font-semibold text-gray-900 ml-2">Review</span>
               </div>
@@ -453,9 +469,9 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={700}
                 height={500}
-                className="w-[350px] h-[350px] object-contain mx-auto"
+                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
               />
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                 5. Your friend sees the bill
               </h3>
               <p className="text-gray-600 text-base">
@@ -464,8 +480,8 @@ export default function LandingPage() {
             </div>
 
             {/* Step 6 */}
-            <div className="text-center space-y-4">
-              <div className="text-base text-gray-500 mb-2">
+            <div className="text-center space-y-3 sm:space-y-4">
+              <div className="text-sm sm:text-base text-gray-500 mb-2">
                 Step 6{" "}
                 <span className="font-semibold text-gray-900 ml-2">
                   Complete
@@ -476,9 +492,9 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[350px] h-[350px] object-contain mx-auto"
+                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
               />
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                 6. Mark as paid
               </h3>
               <p className="text-gray-600 text-base">
@@ -487,8 +503,8 @@ export default function LandingPage() {
             </div>
 
             {/* Step 7 */}
-            <div className="text-center space-y-4 lg:col-start-2">
-              <div className="text-base text-gray-500 mb-2">
+            <div className="text-center space-y-3 sm:space-y-4 lg:col-start-2">
+              <div className="text-sm sm:text-base text-gray-500 mb-2">
                 Step 7{" "}
                 <span className="font-semibold text-gray-900 ml-2">Manage</span>
               </div>
@@ -497,9 +513,9 @@ export default function LandingPage() {
                 alt="Expense icon"
                 width={500}
                 height={500}
-                className="w-[350px] h-[350px] object-contain mx-auto"
+                className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] object-contain mx-auto"
               />
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                 7. Manage your bill
               </h3>
               <p className="text-gray-600 text-base">
@@ -511,53 +527,53 @@ export default function LandingPage() {
       </section>
 
       {/* Friendship Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-16">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-8 sm:mb-16 px-4">
             Don't let unpaid bills ruin your friendships
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {/* Scenario 1 */}
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-3 sm:space-y-4">
               <Image
                 src={"/mascot_5.svg"}
                 alt="Expense icon"
                 width={100}
                 height={200}
-                className="w-[250px] h-[250px] object-contain mx-auto"
+                className="w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] lg:w-[250px] lg:h-[250px] object-contain mx-auto"
               />{" "}
-              <h3 className="text-xl font-bold text-gray-900">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">
                 When <span className="font-bold">nobody</span> pays you...
               </h3>
               <p className="text-gray-600">2 friends still owe.</p>
             </div>
 
             {/* Scenario 2 */}
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-3 sm:space-y-4">
               <Image
                 src={"/mascot_6.svg"}
                 alt="Expense icon"
                 width={200}
                 height={200}
-                className="w-[250px] h-[250px] object-contain mx-auto"
+                className="w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] lg:w-[250px] lg:h-[250px] object-contain mx-auto"
               />{" "}
-              <h3 className="text-xl font-bold text-gray-900">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">
                 When friends are <span className="font-bold">slow</span>...
               </h3>
               <p className="text-gray-600">Waiting for payments...</p>
             </div>
 
             {/* Scenario 3 */}
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-3 sm:space-y-4">
               <Image
                 src={"/mascot_1.svg"}
                 alt="Expense icon"
                 width={200}
                 height={200}
-                className="w-[250px] h-[250px] object-contain mx-auto"
+                className="w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] lg:w-[250px] lg:h-[250px] object-contain mx-auto"
               />{" "}
-              <h3 className="text-xl font-bold text-gray-900">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">
                 <span className="font-bold">Everyone paid!</span> 😊✨
               </h3>
               <p className="text-gray-600">Everyone paid! Drinks on you!!</p>
